@@ -1,0 +1,27 @@
+services:
+  backend:
+    build: ./backend
+    container_name: backend-app
+    volumes:
+      - backend_data:/data
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: frontend-app
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  backend_data:
+
+networks:
+  app-network:
+    driver: bridge
